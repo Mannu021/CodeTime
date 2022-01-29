@@ -1,0 +1,37 @@
+{
+    "name": "TimeCode",
+    "description": "A extension to inject some specific functionallity in leetcode",
+    "version": "1.0",
+    "manifest_version": 3,
+    "icons": {
+    
+        "32": "./images/output-onlinepngtools1.png",
+        "48": "./images/output-onlinepngtools2.png",
+        "128": "./images/output-onlinepngtools3.png"
+    },
+    "background": {
+        "service_worker": "./background.js"
+    },
+    "action": {
+        "default_title": "Set timer to your leetcode problem",
+        "default_popup": "popup.html",
+        "default_icons": {
+            "32": "./images/output-onlinepngtools1.png",
+            "48": "./images/output-onlinepngtools2.png",
+            "128": "./images/output-onlinepngtools3.png"
+        }
+    },
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "storage",
+        "scripting",
+        "alarms",
+        "notifications",
+        "storage"
+    ],
+    "host_permissions": [
+        "https://leetcode.com/*"
+
+    ]
+}
