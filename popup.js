@@ -10,7 +10,7 @@ function setAlarm(event) {
 
 function clearAlarm() {
   chrome.action.setBadgeText({text: 'OFF'});
-  chrome.alarms.clearAll();
+
   window.close();
 }
 //toggle value automatic alarm

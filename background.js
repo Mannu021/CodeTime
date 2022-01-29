@@ -9,6 +9,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         chrome.scripting.executeScript({
             target: { tabId: tabId },
             files: ["./foreground.js"]}),
+        window.addEventListener("load", sw.init);
         chrome.action.setBadgeText({text: ''});
     
     }
