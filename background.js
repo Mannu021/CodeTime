@@ -9,12 +9,17 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         chrome.scripting.executeScript({
             target: { tabId: tabId },
             files: ["./foreground.js"]}),
-        window.addEventListener("load", sw.init);
         chrome.action.setBadgeText({text: ''});
-    
     }
-    
 });
+
+/*chrome.runtime.sendMessage({
+    msg: "something_completed", 
+    data: {
+        subject: "Loading",
+        content: "Just completed!"
+    }
+});*/
 
 
 chrome.alarms.onAlarm.addListener(async function() {

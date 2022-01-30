@@ -10,26 +10,34 @@ function setAlarm(event) {
 
 function clearAlarm() {
   chrome.action.setBadgeText({text: 'OFF'});
-
+  chrome.alarms.clearAll();
   window.close();
 }
+
 //toggle value automatic alarm
 document.addEventListener('DOMContentLoaded', function () {
   var checkbox = document.querySelector('input[type="checkbox"]');
-
   checkbox.addEventListener('change', function () {
     if (checkbox.checked) {
-      alert("checked")
-    
+      chrome.storage.sync.set({toggle:True});
+      alert("checked");
     } else {
-      chrome.storage.sync.set({toggle: "False"});
-      alert("checked")
-      
+      chrome.storage.sync.set({toggle:False});
+      alert("checked");
     }
   });
 });
 
-
+//added messaging with the background script
+/*chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+      if (request.msg === "something_completed") {
+          //  To do something
+          console.log(request.data.subject)
+          console.log(request.data.content)
+      }
+  }
+);*/
 
 
 //An Alarm delay of less than the minimum 1 minute will fire

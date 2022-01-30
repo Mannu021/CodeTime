@@ -15,7 +15,7 @@ var oo=document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 >
   <input type="button" value="Start" id="sw-go" disabled/>
 </div>*/
 
-const cnn=document.querySelector("#app > div > div.header__3STC > div > div");
+
 var time=document.createElement("div");
 time.textContent="00:00:00"
 time.id="sw-time";
@@ -27,9 +27,16 @@ var start=document.createElement("input");
 start.type="button";
 start.value="start";
 start.id="sw-go";
-cnn.appendChild(time);
-cnn.appendChild(reset);
-cnn.appendChild(start);
+reset.style.background="none";
+start.style.background="none";
+reset.style.border="none";
+start.style.border="none";
+reset.style.color="rgb(176, 190, 197)";
+start.style.color="rgb(176, 190, 197)";
+time.style.color="rgb(176, 190, 197)";
+oo.appendChild(start);
+oo.appendChild(reset);
+oo.appendChild(time);
 
 
 
@@ -54,14 +61,14 @@ var sw = {
   
     start : () => {
       sw.timer = setInterval(sw.tick, 1000);
-      sw.ego.value = "Stop";
+      sw.ego.value = "stop";
       sw.ego.onclick = sw.stop;
     },
 
     stop : () => {
       clearInterval(sw.timer);
       sw.timer = null;
-      sw.ego.value = "Start";
+      sw.ego.value = "start";
       sw.ego.onclick = sw.start;
     },
   
