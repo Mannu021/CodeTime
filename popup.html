@@ -19,13 +19,13 @@
       }
 
       button:hover {
-        outline: #80DEEA dotted thick;
+        outline:black;
       }
       .switch {
         position: relative;
         display: inline-block;
-        width: 60px;
-        height: 34px;
+        width: 30px;
+        height: 17px;
       }
 
       .switch input { 
@@ -49,10 +49,10 @@
       .slider:before {
         position: absolute;
         content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
+        height: 13px;
+        width: 13px;
+        left: 2px;
+        bottom: 2px;
         background-color: white;
         -webkit-transition: .4s;
         transition: .4s;
@@ -67,9 +67,9 @@
       }
 
       input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
+        -webkit-transform: translateX(13px);
+        -ms-transform: translateX(13px);
+        transform: translateX(13px);
       }
 
       /* Rounded sliders */
@@ -79,20 +79,51 @@
       .slider.round:before {
         border-radius: 50%;
       }
+      #auto{
+        display: flex;
+        margin:5px;
+        justify-content: space-around;
+        
+      }
+      #manual{
+        display: flex;
+        margin:5px;
+        justify-content: space-around;
+      }
+      #stopwatch{
+        display: flex;
+        margin:5px;
+        justify-content: space-around;
+      }
     </style>
   </head>
   <body>
+    <div id="image">
       <img src='./images/output-onlinepngtools3.png' id='aImage'>
-      
+    </div>
+    <button id='Test' value='1'>Test</button>
+
+    <div id="stopwatch">
+      <div id="swtitle">STOPWATCH</div>
+      <div id="swtoggle"><label class="switch" >
+        <input type="checkbox">
+        <span class="slider round"></span>
+      </label></div>
+    </div>
+    <h1>Timer Set</h1>
+    <div id="auto">
+      <div id="atitle">Auto</div>
       <label class="switch" >
         <input type="checkbox">
         <span class="slider round"></span>
-      </label>
-      <button id='Test' value='1'>1 min alaer</button>
-      <button id='Easy' value='20'>Easy-20 Minutes</button>
-      <button id='Medium' value='40'>Medium-40 Minutes</button>
-      <button id='Hard' value='60'>Hard-60 Minutes</button>
-      <button id='cancelAlarm'>Cancel Alarm</button>
+      </label></div>
+    </div>
+    <div id="manual">
+      <button id='Easy' value='20'>Easy</button>
+      <button id='Medium' value='40'>Medium</button>
+      <button id='Hard' value='60'>Hard</button>
+    </div>
+    <button id='cancelAlarm'>Cancel Alarm</button>
       
    <script src="popup.js"></script>
   </body>

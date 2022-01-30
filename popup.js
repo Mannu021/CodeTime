@@ -13,7 +13,6 @@ function clearAlarm() {
   chrome.alarms.clearAll();
   window.close();
 }
-
 //toggle value automatic alarm
 document.addEventListener('DOMContentLoaded', function () {
   var checkbox = document.querySelector('input[type="checkbox"]');
