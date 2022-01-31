@@ -1,5 +1,7 @@
 'use strict';
 
+const popup={};
+
 function setAlarm(event) {
   let minutes = parseFloat(event.target.value);
   chrome.action.setBadgeText({text: 'ON'});
@@ -13,18 +15,23 @@ function clearAlarm() {
   chrome.alarms.clearAll();
   window.close();
 }
-//toggle value automatic alarm
+
+//toggle buttton
+var toggle=document.querySelector('input[id="swt"]');
 document.addEventListener('DOMContentLoaded', function () {
-  var checkbox = document.querySelector('input[type="checkbox"]');
-  checkbox.addEventListener('change', function () {
-    if (checkbox.checked) {
-      chrome.storage.sync.set({toggle:True});
-      alert("checked");
-    } else {
-      chrome.storage.sync.set({toggle:False});
-      alert("checked");
+  chrome.storage.sync.get({"auto":"fal"},function(data){
+    if(data.auto==="tru"){
+      toggle.checked=true;
     }
-  });
+  })
+});
+toggle.addEventListener('change', function () {
+  if (toggle.checked) {
+      chrome.storage.sync.set({"auto":"tru"});
+    } 
+  else {
+      chrome.storage.sync.set({"auto":"fal"});
+  }
 });
 
 //added messaging with the background script
