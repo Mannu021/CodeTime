@@ -21,6 +21,10 @@
             "128": "./images/output-onlinepngtools3.png"
         }
     },
+    "options_ui": {
+        "page": "option.html",
+        "open_in_tab": true
+    },
     "permissions": [
         "activeTab",
         "tabs",

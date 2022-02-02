@@ -1,22 +1,30 @@
-'use strict';
+function setAlarm(event){
+  var value=event.currentTarget.id;
+  chrome.storage.sync.get(["easy","medium","hard","diff","diffval"],(data)=>{
+    if(value=="easy"){
+      chrome.alarms.create({delayInMinutes:parseFloat(data.easy)});
+      chrome.action.setBadgeText({text: 'E'});
+    }
+    else if(value=="medium"){
+      chrome.alarms.create({delayInMinutes:parseFloat(data.medium)});
+      chrome.action.setBadgeText({text: 'M'});
+    }
+    else{
+      chrome.alarms.create({delayInMinutes:parseFloat(data.hard)});
+      chrome.action.setBadgeText({text: 'H'});
+    }
 
-const popup={};
-
-function setAlarm(event) {
-  let minutes = parseFloat(event.target.value);
-  chrome.action.setBadgeText({text: 'ON'});
-  chrome.alarms.create({delayInMinutes: minutes});
-  chrome.storage.sync.set({minutes: minutes});
-  window.close();
-}
+    window.close();
+  });
+}//////////////
 
 function clearAlarm() {
-  chrome.action.setBadgeText({text: 'OFF'});
+  chrome.action.setBadgeText({text: ''});
   chrome.alarms.clearAll();
   window.close();
 }
 
-//toggle buttton
+//Add Stopwatch toggle button
 var toggle=document.querySelector('input[id="swt"]');
 document.addEventListener('DOMContentLoaded', function () {
   chrome.storage.sync.get({"auto":"fal"},function(data){
@@ -34,22 +42,26 @@ toggle.addEventListener('change', function () {
   }
 });
 
-//added messaging with the background script
-/*chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-      if (request.msg === "something_completed") {
-          //  To do something
-          console.log(request.data.subject)
-          console.log(request.data.content)
-      }
+//
+var togglediff=document.querySelector('input[id="at"]');
+document.addEventListener('DOMContentLoaded', function () {
+  chrome.storage.sync.get({"diff":"fal"},function(data){
+    if(data.diff=="tru"){
+      togglediff.checked=true;
+    }
+  })
+});
+togglediff.addEventListener('change', function () {
+  if (togglediff.checked) {
+      chrome.storage.sync.set({"diff":"tru"});
+    } 
+  else {
+      chrome.storage.sync.set({"diff":"fal"});
   }
-);*/
+});
 
-
-//An Alarm delay of less than the minimum 1 minute will fire
-// in approximately 1 minute increments if released
-document.getElementById('Test').addEventListener('click', setAlarm);
-document.getElementById('Easy').addEventListener('click', setAlarm);
-document.getElementById('Medium').addEventListener('click', setAlarm);
-document.getElementById('Hard').addEventListener('click', setAlarm);
+document.getElementById('easy').addEventListener('click', setAlarm);
+document.getElementById('medium').addEventListener('click', setAlarm);
+document.getElementById('hard').addEventListener('click', setAlarm);
 document.getElementById('cancelAlarm').addEventListener('click', clearAlarm);
+

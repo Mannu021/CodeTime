@@ -5,7 +5,7 @@
       body {
         text-align: center; 
         border-radius: 25px;
-        background-color: aquamarine;
+        background-color:rgb(108, 240, 185);
       }
 
       #aImage {
@@ -24,8 +24,8 @@
       .switch {
         position: relative;
         display: inline-block;
-        width: 30px;
-        height: 17px;
+        width: 25px;
+        height: 12px;
       }
 
       .switch input { 
@@ -49,10 +49,10 @@
       .slider:before {
         position: absolute;
         content: "";
-        height: 13px;
-        width: 13px;
-        left: 2px;
-        bottom: 2px;
+        height: 16px;
+        width: 16px;
+        left: -2px;
+        bottom: -2px;
         background-color: white;
         -webkit-transition: .4s;
         transition: .4s;
@@ -67,9 +67,9 @@
       }
 
       input:checked + .slider:before {
-        -webkit-transform: translateX(13px);
-        -ms-transform: translateX(13px);
-        transform: translateX(13px);
+        -webkit-transform: translateX(15px);
+        -ms-transform: translateX(15px);
+        transform: translateX(15px);
       }
 
       /* Rounded sliders */
@@ -99,9 +99,7 @@
   </head>
   <body>
     <div id="image">
-      <img src='./images/output-onlinepngtools3.png' id='aImage'>
-    </div>
-    <button id='Test' value='1'>Test</button>
+      <img src='./images/output-onlinepngtools3.png' id='aImage'> 
 
     <div id="stopwatch">
       <div id="swtitle">STOPWATCH</div>
@@ -120,9 +118,9 @@
       </label></div>
     </div>
     <div id="manual">
-      <button id='Easy' value='20'>Easy</button>
-      <button id='Medium' value='40'>Medium</button>
-      <button id='Hard' value='60'>Hard</button>
+      <button id='easy' >Easy</button>
+      <button id='medium' >Medium</button>
+      <button id='hard' >Hard</button>
     </div>
     <button id='cancelAlarm'>Cancel Alarm</button>
       
