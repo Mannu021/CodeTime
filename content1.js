@@ -7,6 +7,8 @@ console.log([diff]);
 var oo=document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.editor-wrapper__1ru6 > div > div.content__Ztw- > div > div.container__2zYY > div.btns__1OeZ");
 
 
+//#app > div > div.header__3STC
+//data-is-loadinggit 
 
 
 //Stop watch code in pure js

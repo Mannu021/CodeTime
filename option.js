@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", restoreOptions());
 function restoreOptions() {
   function setCurrentChoice(result) {
-    document.querySelector("#easy").value = result.easy || "30";
-    document.querySelector("#medium").value= result.medium || "40";
-    document.querySelector("#hard").value= result.hard|| "60";
+    document.querySelector("#easy").value = result.easy;
+    document.querySelector("#medium").value= result.medium;
+    document.querySelector("#hard").value= result.hard;
   }
 
   function onError(error) {

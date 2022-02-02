@@ -1,4 +1,5 @@
 function setAlarm(event){
+  chrome.alarms.clearAll();
   var value=event.currentTarget.id;
   chrome.storage.sync.get(["easy","medium","hard","diff","diffval"],(data)=>{
     if(value=="easy"){
@@ -13,10 +14,9 @@ function setAlarm(event){
       chrome.alarms.create({delayInMinutes:parseFloat(data.hard)});
       chrome.action.setBadgeText({text: 'H'});
     }
-
-    window.close();
   });
-}//////////////
+  window.close();
+}
 
 function clearAlarm() {
   chrome.action.setBadgeText({text: ''});
