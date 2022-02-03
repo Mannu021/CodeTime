@@ -12,6 +12,7 @@
     "background": {
         "service_worker": "./background.js"
     },
+    
     "action": {
         "default_title": "Set timer to your leetcode problem",
         "default_popup": "popup.html",

@@ -1,53 +1,37 @@
-async function getCurrentTab() {
-    let queryOptions = { active: true, currentWindow: true };
-    let [tab] = await chrome.tabs.query(queryOptions);
-    return tab;
-}
-
 chrome.runtime.onInstalled.addListener(()=>
-    chrome.storage.sync.set({"easy":"25","medium":"45","hard":"60","auto":"fal","diff":"fal"},()=>{
+    chrome.storage.sync.set({"easy":"1","medium":"2","hard":"3","auto":"fal","diff":"fal","tri":"tru","onalarm":"fal"},()=>{
         console.log("loaded codetime initalization settings");
     })
 );
   
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    chrome.alarms.clearAll();
-    chrome.action.setBadgeText({text:''});
-    contentload(changeInfo,tabId,tab);   
-    autodiff();
+    if (changeInfo.status === 'complete' && /problems/.test(tab.url)) {
+        chrome.alarms.clearAll();
+        chrome.action.setBadgeText({text:""});
+        contentload(tabId); 
+        console.log("inject content script");
+    }  
+});
+
+chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'sync') {
+        autodiff();
+    }
 });
 
 
 chrome.alarms.onAlarm.addListener(async function() {
-    chrome.scripting.insertCSS({
-            target: { tabId: (await getCurrentTab()).id },
-            files: ["inject.css"]
-        }),
+    console.log("onalarm");
+    chrome.storage.sync.set({"onalarm":"tru"})
     chrome.alarms.clearAll();    
+    chrome.action.setBadgeText({text:""});
 });
   
-chrome.notifications.onButtonClicked.addListener(function() {
-    chrome.storage.sync.get(['minutes'], function(item) {
-        chrome.action.setBadgeText({text: 'ON'});
-     chrome.alarms.create({delayInMinutes: item.minutes});
-    });
-});
 
-function contentload(changeinfo,tabid,Tab){
-    if (changeinfo.status === 'complete' && /^http/.test(Tab.url)) {
-        chrome.storage.sync.get({"auto":"fal"},function(data){
-            if(data.auto==="tru"){
-                chrome.scripting.executeScript({
-                    target: { tabId: tabid },
-                    files: ["./content1.js"]});
-                }
-            else{
-                chrome.scripting.executeScript({
-                    target: { tabId: tabid },
-                    files: ["./content2.js"]});
-                }
-            });
-    }
+function contentload(tabid){
+    chrome.scripting.executeScript({
+            target: { tabId: tabid },
+            files: ["./content1.js"]});
 }
 
 function autodiff(){
@@ -56,29 +40,24 @@ function autodiff(){
             var value=data.diffval;
             if(value=="easy"){
                 chrome.alarms.create({delayInMinutes:parseFloat(data.easy)});
-                chrome.action.setBadgeText({text: 'E'});
-                
+                chrome.action.setBadgeText({text: 'Ea'});
             }
             else if(value=="medium"){
                 chrome.alarms.create({delayInMinutes:parseFloat(data.medium)});
-                chrome.action.setBadgeText({text: 'M'});
+                chrome.action.setBadgeText({text: 'Ma'});
             }
             else if (value=="hard"){
                 chrome.alarms.create({delayInMinutes:parseFloat(data.hard)});
-                chrome.action.setBadgeText({text: 'H'});
+                chrome.action.setBadgeText({text: 'Ha'});
                 
             }
             else{
                 console.log("No difficulty detected when auto is on");
             }
+            console.log(`alarm is set to diff${value}`)
         }
         else{
-            console.log("auto diff is off");
+            console.log("diff toggle is off");
         }
     });
 }
-
-/*chrome.tab.reload( await getCurrentTab().id ,function () {
-        chrome.alarms.clearAll();
-        chrome.action.setBadgeText({ text: '' });
-});*/
