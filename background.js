@@ -1,5 +1,11 @@
 chrome.runtime.onInstalled.addListener(()=>
-    chrome.storage.sync.set({"easy":"1","medium":"2","hard":"3","auto":"fal","diff":"fal","tri":"tru","onalarm":"fal"},()=>{
+    chrome.storage.sync.set({"easy":"25",
+                            "medium":"45",
+                            "hard":"60",
+                            "stopwatch":"fal",//auto
+                            "auto_det":"fal",//diff
+                            "two_check":"tru",//to check whin to contionous window have same diff
+                            "onalarm":"fal"},()=>{
         console.log("loaded codetime initalization settings");
     })
 );
@@ -9,16 +15,17 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         chrome.alarms.clearAll();
         chrome.action.setBadgeText({text:""});
         contentload(tabId); 
-        console.log("inject content script");
+        console.log("injected content script");
     }  
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {
     if (area === 'sync') {
-        autodiff();
+        if("diffval" in changes || "two_check" in changes || "auto_det" in changes){
+           autodiff();
+        }
     }
 });
-
 
 chrome.alarms.onAlarm.addListener(async function() {
     console.log("onalarm");
@@ -27,16 +34,14 @@ chrome.alarms.onAlarm.addListener(async function() {
     chrome.action.setBadgeText({text:""});
 });
   
-
 function contentload(tabid){
     chrome.scripting.executeScript({
             target: { tabId: tabid },
             files: ["./content1.js"]});
 }
-
 function autodiff(){
-    chrome.storage.sync.get(["easy","medium","hard","diff","diffval"],(data)=>{
-        if(data.diff=="tru"){ 
+    chrome.storage.sync.get(["easy","medium","hard","auto_det","diffval"],(data)=>{
+        if(data.auto_det=="tru"){ 
             var value=data.diffval;
             if(value=="easy"){
                 chrome.alarms.create({delayInMinutes:parseFloat(data.easy)});
@@ -52,6 +57,7 @@ function autodiff(){
                 
             }
             else{
+                chrome.action.setBadgeText({text:"Na"})
                 console.log("No difficulty detected when auto is on");
             }
             console.log(`alarm is set to diff${value}`)

@@ -1,7 +1,7 @@
 {
     "name": "TimeCode",
     "description": "A extension to inject some specific functionallity in leetcode",
-    "version": "1.0",
+    "version": "0.0.1",
     "manifest_version": 3,
     "icons": {
     

@@ -1,30 +1,34 @@
+//rotatae the leetcode symbol for mark of content file load successfully
 document.querySelector("#app > div > div.header__3STC > div > div > div.navbar-left-container__3-qz > div:nth-child(1) > a > img").style.transitionDuration = '3.0s';
 document.querySelector("#app > div > div.header__3STC > div > div > div.navbar-left-container__3-qz > div:nth-child(1) > a > img").style.transform = 'rotate(3600deg)';
-var oo=document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.editor-wrapper__1ru6 > div > div.content__Ztw- > div > div.container__2zYY > div.btns__1OeZ");
-var temp=document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.side-tools-wrapper__1TS9 > div > div.css-1gd46d6-Container.e5i1odf0 > div.css-jtoecv > div > div.tab-pane__ncJk.css-1eusa4c-TabContent.e5i1odf5 > div > div.css-101rr4k > div.css-10o4wqw > div");
-var diff=temp.getAttribute("diff");
+var diff_div=document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.side-tools-wrapper__1TS9 > div > div.css-1gd46d6-Container.e5i1odf0 > div.css-jtoecv > div > div.tab-pane__ncJk.css-1eusa4c-TabContent.e5i1odf5 > div > div.css-101rr4k > div.css-10o4wqw > div");
+var diff=diff_div.getAttribute("diff");
 chrome.storage.sync.set({"diffval":diff});
-console.log([diff]);
+console.log(diff);
 
-chrome.storage.sync.get(["auto"],(data)=>{
-  if(data.auto=="tru"){
-    stopwatch(oo);
+//if stopwatch is on intial instance
+
+var sw_bar=document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.editor-wrapper__1ru6 > div > div.content__Ztw- > div > div.container__2zYY > div.btns__1OeZ");
+const child=sw_bar.childNodes.length;
+chrome.storage.sync.get(["stopwatch"],(data)=>{
+  if(data.stopwatch=="tru"){
+    stopwatch(sw_bar);
   }
   else{
     console.log("stopwatch is off")
   }
 });
 
-chrome.storage.sync.get(["diff","easy","medium","hard","tri"],(data)=>{
-  if(data.diff=="tru"){
-    if(data.tri=="tru"){
-      chrome.storage.sync.set({"tri":"fal"});
+chrome.storage.sync.get(["auto_det","easy","medium","hard","two_check"],(data)=>{
+  if(data.auto_det=="tru"){
+    if(data.two_check=="tru"){
+      chrome.storage.sync.set({"two_check":"fal"});
     }else{
-      chrome.storage.sync.set({"tri":"tru"});
+      chrome.storage.sync.set({"two_check":"tru"});
     }
-    var t=document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.side-tools-wrapper__1TS9 > div > div.css-1gd46d6-Container.e5i1odf0 > div.css-jtoecv > div > div.tab-pane__ncJk.css-1eusa4c-TabContent.e5i1odf5 > div > div.css-101rr4k > div.css-10o4wqw > div");
-    var dif=t.getAttribute("diff");
-    chrome.storage.sync.set({"diffval":dif});
+    var diff_div2=document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.side-tools-wrapper__1TS9 > div > div.css-1gd46d6-Container.e5i1odf0 > div.css-jtoecv > div > div.tab-pane__ncJk.css-1eusa4c-TabContent.e5i1odf5 > div > div.css-101rr4k > div.css-10o4wqw > div");
+    var diff2=diff_div2.getAttribute("diff");
+    chrome.storage.sync.set({"diffval":diff2});
   }
 });
 
@@ -32,42 +36,41 @@ chrome.storage.onChanged.addListener((changes, area) => {
   if (area === 'sync' && "onalarm" in changes) {
     document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.editor-wrapper__1ru6 > div > div.content__Ztw- > div > div.container__2zYY").style.background='#fbc2c2';
     chrome.storage.sync.set({"onalarm":"fal"});
-    console.log(changes);
   }
 });
 
+//observe changes in dom and use mutation api to detect dom changes.
 const targetNode=document.querySelector("#app > div > div.main__2_tD");
 const config = {childList:true};
 const callback = function(mutationsList, observer){
   for(const mutation of mutationsList) {
       if (mutation.type === 'childList') {
-          chrome.storage.sync.get(["diff","easy","medium","hard","tri","auto"],(data)=>{
-            if(data.diff=="tru"){
-              var temp=document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.side-tools-wrapper__1TS9 > div > div.css-1gd46d6-Container.e5i1odf0 > div.css-jtoecv > div > div.tab-pane__ncJk.css-1eusa4c-TabContent.e5i1odf5 > div > div.css-101rr4k > div.css-10o4wqw > div");
-              var diff=temp.getAttribute("diff");
-              chrome.storage.sync.set({"diffval":diff});
-              document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.editor-wrapper__1ru6 > div > div.content__Ztw- > div > div.container__2zYY").style.background='#fafafa';
-              chrome.storage.sync.set({"col":"tru"});
-              console.log(`difficulty is set to ${diff}`);
-              if(data.tri=="tru"){
-                chrome.storage.sync.set({"tri":"fal"});
-              }else{
-                chrome.storage.sync.set({"tri":"tru"});
+          //get the value of keys from the storage sync
+          chrome.storage.sync.get(["auto_det","easy","medium","hard","two_check","stopwatch"],(data)=>{
+            //detect the difficulty value from diff attribute of given selector
+            var temp=document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.side-tools-wrapper__1TS9 > div > div.css-1gd46d6-Container.e5i1odf0 > div.css-jtoecv > div > div.tab-pane__ncJk.css-1eusa4c-TabContent.e5i1odf5 > div > div.css-101rr4k > div.css-10o4wqw > div");
+            var diff=temp.getAttribute("diff");
+            chrome.storage.sync.set({"diffval":diff});
+
+            ///set the alarm_color tab color to default color.
+            document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.editor-wrapper__1ru6 > div > div.content__Ztw- > div > div.container__2zYY").style.background='#fafafa';
+            //Check for two continious tab of same difficulty and generate a memoray change event
+            if(data.two_check=="tru" ){
+              chrome.storage.sync.set({"two_check":"fal"});
+            }else{
+              chrome.storage.sync.set({"two_check":"tru"});
+            }
+            //add stopwatch to the dom element change if stopwatcch toggle is on
+            if(data.stopwatch=="tru"){
+              var sw_tab2=document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.editor-wrapper__1ru6 > div > div.content__Ztw- > div > div.container__2zYY > div.btns__1OeZ");
+              if (sw_tab2.childNodes.length == child) { 
+                stopwatch(sw_tab2);
               }
-            }
-            else{
-              console.log("Autodetect difficult is off");
-            }
-            console.log("enter");
-            if(data.auto=="tru"){
-              var ox=document.querySelector("#app > div > div.main__2_tD > div.content__3fR6 > div > div.editor-wrapper__1ru6 > div > div.content__Ztw- > div > div.container__2zYY > div.btns__1OeZ");
-              stopwatch(ox);
-              console.log("tried to add stopwatch on mutation");
+              
             }
             else{
               console.log("stopwatch is off");
             }
-            console.log("end");
       });
       }
       else{
@@ -77,11 +80,6 @@ const callback = function(mutationsList, observer){
 };
 const observer = new MutationObserver(callback);
 observer.observe(targetNode, config);
-//data-is-loadinggit 
-
-
-
-
 
 //Stop watch code in pure js
 function stopwatch(outercover){
