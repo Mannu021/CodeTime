@@ -9,7 +9,7 @@ Added interactive rotation to leetcode logo for telling the extension is working
 
 Added automatic difficulty detector
 
-Added option of adding stopwatch  to the browser
+Added option of adding stopwatch  to the tab
 
 Added otion page for the attaching time to difficulty
 
